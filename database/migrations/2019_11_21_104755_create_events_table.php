@@ -17,8 +17,9 @@ class CreateEventsTable extends Migration
             $table->bigIncrements('id');
             $table->string('event_name');
             $table->longText('event_description');
-            $table->dateTimeTz('event_start');
-            $table->dateTimeTz('event_end');
+            $table->dateTimeTz('event_start')->default(now());
+            $table->dateTimeTz('event_end')->default(now());
+            $table->enum('stats', ['soon', 'now', 'finish'])->nullable();
             $table->timestamps();
         });
     }

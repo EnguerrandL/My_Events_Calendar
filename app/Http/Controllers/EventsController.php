@@ -8,81 +8,66 @@ use Carbon\Carbon;
 
 class EventsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-       $myEvents =  Event::all();
+       $currentDate = new carbon; 
+       $events =  Event::orderBy('event_start', 'asc')->get();
+     
 
-       return view('myeventscalendar', compact('myEvents'));
+       return view('myeventscalendar', compact('events', 'currentDate' ));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
-        //
+
+            $data = request()->validate([
+                'event_name' => 'bail|required',
+                'event_description' => 'bail|required',
+            ]);
+    
+           Event::create($data);    
+           
+            return redirect()->back();
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, $id)
     {
-        //
+       
+
+       $this->validate($request,[
+            'event_name' => 'bail|required',
+            'event_description' => 'bail|required',
+        ]);
+      
+
+
+        $event = Event::find($id);
+
+        $event->save();
+     
+
+       return redirect()->back();
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
-        //
+        $event= Event::find($id);
+
+        $event->delete();
+
+        return redirect()->back();
     }
 }
