@@ -37,12 +37,14 @@
       <td>
       
       
-      <form action="/{{ $event->id }}" method="post">
-      <button class="container btn-success" data-toggle="modal" data-target="#exampleModal2">Edit </button> 
+ 
+     
+      <button  class="container btn-success" data-toggle="modal" data-target="#exampleModal2">Edit </button> 
 
-    @method('PUT')
 
-</form>
+
+
+
 
 
       <form action="/{{$event->id}}" method="post">
@@ -70,22 +72,26 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/" method="POST">
+    
+          
+     
+      <form action="{{ route('update',  $event->id) }}" method="POST">
       @method('PUT')
       @csrf
+    
   
     
       <div class="modal-body">
         
           <div class="form-group">
             <label for="name" class="col-form-label">Event Name</label>
-            <input type="text" name="event_name" class="form-control" >
+            <input type="text" placeholder="{{$event->event_name}}" name="event_name" class="form-control" >
           </div>
 
     
           <div class="form-group">
             <label for="description" class="col-form-label">Event Description</label>
-            <textarea name="event_description" class="form-control" id="message-text"></textarea>
+            <textarea placeholder="{{$event->event_description}}" name="event_description" class="form-control" id="message-text"></textarea>
           </div>
         
       </div>
@@ -137,7 +143,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" >Add envent</button>
+        <button type="submit" class="btn btn-primary" >Add event</button>
       </div>
       </form>
     </div>

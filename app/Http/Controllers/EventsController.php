@@ -12,7 +12,8 @@ class EventsController extends Controller
     public function index()
     {
        $currentDate = new carbon; 
-       $events =  Event::orderBy('event_start', 'asc')->get();
+       $events =  Event::all();
+      
      
 
        return view('myeventscalendar', compact('events', 'currentDate' ));
@@ -27,37 +28,32 @@ class EventsController extends Controller
                 'event_name' => 'bail|required',
                 'event_description' => 'bail|required',
             ]);
+
+          
     
            Event::create($data);    
            
-            return redirect()->back();
+            return back();
 
     }
 
    
-    public function edit($id)
-    {
-        //
-    }
 
     
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-       
 
-       $this->validate($request,[
-            'event_name' => 'bail|required',
-            'event_description' => 'bail|required',
-        ]);
-      
+        $data = array(
+            'event_name' => $request->event_name,
+            'event_description' => $request->event_description,
+            'event_start' =>  new carbon,
+            'event_end' => new carbon,
+        );
 
+        Event::findOrFail($request->id)->update($data);
 
-        $event = Event::find($id);
-
-        $event->save();
-     
-
-       return redirect()->back();
+            // dd($event); exit;
+            return back();
 
     }
 
@@ -68,6 +64,6 @@ class EventsController extends Controller
 
         $event->delete();
 
-        return redirect()->back();
+        return back();
     }
 }

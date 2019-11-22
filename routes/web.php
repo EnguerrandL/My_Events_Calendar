@@ -18,6 +18,5 @@
 
 Route::get('/', 'EventsController@index');
 Route::post('/', 'EventsController@store');
-route::get('/{id}/edit', 'EventsController@update');
-route::put('/{id}', 'EventsController@update');
+route::put('/{id}', 'EventsController@update')->name('update');
 route::delete('/{id}', 'EventsController@destroy');
