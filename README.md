@@ -1,6 +1,6 @@
 # My_Events_Calendar
 
-Simple events calandar under laravel using bootstrap modals and carbon 
+Simple events calendar under laravel using bootstrap modals and carbon 
 
 ### Current state  : 
 
