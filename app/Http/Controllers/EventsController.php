@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Models\Event; 
 use Carbon\Carbon;
 use DB;
@@ -48,7 +49,7 @@ class EventsController extends Controller
     
            Event::create($data);    
            
-            return back();
+            return back()->with('addedit', 'Your event has been added !');
 
     }
 
@@ -58,13 +59,11 @@ class EventsController extends Controller
     public function update(Request $request)
     {
         
-  
-
         $data = array(
             'event_name' => $request->event_name,
             'event_description' => $request->event_description,
-            'event_start' =>  $request->event_start,
-            'event_end' => $request->event_end,
+            'event_start' =>  new carbon,
+            'event_end' => new carbon,
         );
 
   
@@ -73,7 +72,7 @@ class EventsController extends Controller
         Event::findOrFail($request->id)->update($data);
 
             // dd($event); exit;
-            return back();
+            return back()->with('addedit', 'Your event has been updated !');
 
     }
 
@@ -84,9 +83,8 @@ class EventsController extends Controller
 
         $event->delete();
 
-        return back();
+        return back()->with('delete', 'Your event has been removed !');
+
+
     }
-
-
-  
 }

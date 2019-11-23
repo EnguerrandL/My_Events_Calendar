@@ -25,25 +25,49 @@ function refresh() {
         <title>My Events Calendar </title>
 
     </head>
-    <body class=" mt-5 col-8 mx-auto">
+    <body class=" mt-5 col-12 mx-auto">
+       
+@if (session()->has('addedit'))
+<div class="col-2 container   alert alert-success mx-right mt-1 mr-0" role="alert">
+    {{ session()->get('addedit') }}
+</div>
+@endif
 
+
+@if (session()->has('delete'))
+<div class="col-2 container  alert alert-danger mx-right mt-1 mr-0" role="alert">
+    {{ session()->get('delete') }}
+</div>
+@endif
+
+              <!-- Errors -->
+                        @if ($errors->any())
+                            <div class="col-2 container alert alert-danger mx-right mt-1 mr-0">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+
+<main class="col-10 mx-auto">
     
         <h1 class=" mb-3 text-center">Welcome to your Event calendar @User</h1>
-        <h3 onload="refresh()" id="refreshDate" class=" mb-3 text-center">Current time : {{$currentDate}}</h3>
-        <button class="mb-2 btn btn-outline-success text-left"> About this app</button>
-
-
-
-       
-
+        <h3 onload="refresh()" id="refreshDate" class=" mb-3 text-center">Current time : {{$currentDate}} <small>timezone : Europe/Paris</small></h3>
+        <button class="col-2 mb-2 btn btn-outline-success "> About this app</button> <br>
+ <button type="button" class="col-2 btn btn-primary" data-toggle="modal" data-target="#exampleModal1">New event</button>
 
 
 
 
-<table class="table">
+<table class="col-8 mx-auto table">
+
   <thead class="thead-dark">
+ 
     <tr>
-      <th scope="col">#</th>
+      <th scope="col">Event status</th>
       <th scope="col">Name</th>
        <th scope="col">Description</th>
       <th scope="col">Date</th>
@@ -158,7 +182,7 @@ function refresh() {
 
 
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1">New event</button>
+
 
 <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -209,7 +233,7 @@ function refresh() {
   </div>
 </div>
 
-
+</main>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
