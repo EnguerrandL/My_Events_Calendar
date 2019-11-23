@@ -5,28 +5,43 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event; 
 use Carbon\Carbon;
+use DB;
+
+
+
 
 class EventsController extends Controller
 {
 
     public function index()
     {
+
+        
+    //    $currentUserName = Auth::user()->name;
        $currentDate = new carbon; 
        $events =  Event::all();
-      
-     
 
-       return view('myeventscalendar', compact('events', 'currentDate' ));
+
+       $color = 'blue'; 
+
+
+       return view('myeventscalendar', compact('events', 'currentDate', 'color' ));
     }
 
 
    
     public function store(Request $request)
     {
+       
+
+   
+
 
             $data = request()->validate([
-                'event_name' => 'bail|required',
+                'event_name' => 'bail|required|',
                 'event_description' => 'bail|required',
+                'event_start' => 'bail|',
+                'event_end' => 'bail|',
             ]);
 
           
@@ -37,18 +52,23 @@ class EventsController extends Controller
 
     }
 
-   
+
 
     
     public function update(Request $request)
     {
+        
+  
 
         $data = array(
             'event_name' => $request->event_name,
             'event_description' => $request->event_description,
-            'event_start' =>  new carbon,
-            'event_end' => new carbon,
+            'event_start' =>  $request->event_start,
+            'event_end' => $request->event_end,
         );
+
+  
+
 
         Event::findOrFail($request->id)->update($data);
 
@@ -66,4 +86,7 @@ class EventsController extends Controller
 
         return back();
     }
+
+
+  
 }
