@@ -11,12 +11,14 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
+Auth::routes();
 
 Route::get('/', 'EventsController@index');
 Route::post('/', 'EventsController@store');
 route::put('/{id}', 'EventsController@update')->name('update');
 route::delete('/{id}', 'EventsController@destroy');
+
+
+// Function 
+
+Route::get('setColorStatus/', 'EventsController@setColorStatus'); 

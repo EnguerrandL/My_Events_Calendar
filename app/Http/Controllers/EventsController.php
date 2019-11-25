@@ -14,6 +14,34 @@ use DB;
 class EventsController extends Controller
 {
 
+
+
+    public static function setColorStatus(){
+
+        $status = 'black';
+
+        $color = Event::where('stats', 'soon')
+        ->orWhere('stats', 'now')
+        ->orWhere('stats', 'finish')
+        ->get();
+
+
+        if($color = 'soon'){
+
+                 $status = 'green'; 
+
+        } elseif ($color = 'now') {
+
+                 $status = 'blue';
+
+        } else {
+                  $status = 'red';
+        }
+
+
+        return view('myeventcalendar', compact('color'));
+    }
+
     public function index()
     {
 
@@ -35,9 +63,7 @@ class EventsController extends Controller
     {
        
 
-   
-
-
+ 
             $data = request()->validate([
                 'event_name' => 'bail|required|',
                 'event_description' => 'bail|required',

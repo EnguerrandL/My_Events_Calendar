@@ -25,8 +25,13 @@ function refresh() {
         <title>My Events Calendar </title>
 
     </head>
+
     <body class=" mt-5 col-12 mx-auto">
-       
+
+
+    {{-- ERROS --}}
+
+           
 @if (session()->has('addedit'))
 <div class="col-2 container   alert alert-success mx-right mt-1 mr-0" role="alert">
     {{ session()->get('addedit') }}
@@ -52,92 +57,115 @@ function refresh() {
                         @endif
 
 
-<main class="col-10 mx-auto">
+
+    {{-- ERROS END --}}
+
+
+      {{-- LOGIN  --}}
+
+    @guest
+                           
+                                <a class="d-flex text-right" href="{{ route('login') }}">{{ __('Login') }}</a>
+                           
+                            @if (Route::has('register'))
+                                
+                                    <a class="d-flex text-right" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                
+                            @endif
+                        @else
+                            
+                                <a class="d-flex text-right"  href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                   Loged with : {{ Auth::user()->email }} <span class="caret"></span>
+                                </a>
+
+
+                                    <a class="class="d-flex text-right" nav-link" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                
+                          
+                        @endguest
+
+<br>
+      {{-- END LOGIN  --}}
+
+
+
+
+    <button class="mx-auto   btn btn-outline-success "> About this app</button> 
+       
+
+
+
+<main class="col-12 mx-auto">
     
-        <h1 class=" mb-3 text-center">Welcome to your Event calendar @User</h1>
+        <h1 class=" mb-3 text-center">Welcome to your Event calendar @  <span style="color:blue"> @if (Auth::user()) {{{  strtoupper(Auth::user()->name)  }}} @else You are not logged ! </span>@endif</h1>
         <h3 onload="refresh()" id="refreshDate" class=" mb-3 text-center">Current time : {{$currentDate}} <small>timezone : Europe/Paris</small></h3>
-        <button class="col-2 mb-2 btn btn-outline-success "> About this app</button> <br>
- <button type="button" class="col-2 btn btn-primary" data-toggle="modal" data-target="#exampleModal1">New event</button>
+       
 
 
 
 
-<table class="col-8 mx-auto table">
+  <table class="col-8 mx-auto table">
 
   <thead class="thead-dark">
- 
-    <tr>
-      <th scope="col">Event status</th>
-      <th scope="col">Name</th>
-       <th scope="col">Description</th>
-      <th scope="col">Date</th>
-      <th scope="col">Tools</th>
-    </tr>
+   <button type="button" class="mx-auto mb-2 text-center d-flex btn btn-primary" data-toggle="modal" data-target="#exampleModal1">New event</button>
+      <tr>
+        <th scope="col">Event status</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Date</th>
+        <th scope="col">Tools</th>
+      </tr>
   </thead>
 
   <tbody>
   @foreach ( $events as $event )
       
     
-    <tr>
+  <tr>
    
-      <th scope="row" style="color:{{ $color }}">Event Status</th>
-      <td>{{ $event->event_name }}</td>
-      <td>{{ $event->event_description }}</td>
-      <td> Event Start : {{$event->event_start}} <br> Event End : {{$event->event_end}}</td>
-      
-      <td>
-      
-      
-    
-    
-      
-      
-    
-      <button  class="container btn-success" data-toggle="modal" data-target="#exampleModal2{{$event->id}}">Edit </button> 
+  <th scope="row" style="color:{{ $color }}">Event Status</th>
+    <td>{{ $event->event_name }}</td>
+    <td>{{ $event->event_description }}</td>
+    <td> Event Start : {{$event->event_start}} <br> Event End : {{$event->event_end}}</td>  
+    <td>
+    <button  class="container btn-success" data-toggle="modal" data-target="#exampleModal2{{$event->id}}">Edit </button> 
 
-
-
-
-
-
-      <form action="/{{$event->id}}" method="post">
-      @method('DELETE')
-      @csrf
-      <button class="container mt-1 btn-danger">Delete </button>
-      
-      </form>
-      
-      </td>
-
+    <form action="/{{$event->id}}" method="post">
+    @method('DELETE')
+    @csrf
+    <button class="container mt-1 btn-danger">Delete </button>
+    </form>
+    </td>
     </tr>
      @endforeach
-  </tbody>
-</table>
+    </tbody>
+    </table>
 
 {{-- MODAL UPDATE --}}
-@foreach ($events as $event )
-    
+     @foreach ($events as $event )
+      <div class="modal fade" id="exampleModal2{{$event->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit an Event</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
 
-<div class="modal fade" id="exampleModal2{{$event->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit an Event</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    
-          
-     
       <form action="{{ route('update',  $event->id) }}" method="POST">
       @method('PUT')
       @csrf
     
-  
-    
+
       <div class="modal-body">
         
           <div class="form-group">
@@ -177,12 +205,7 @@ function refresh() {
 @endforeach
 
 
-
 {{-- MODAL INSERT --}}
-
-
-
-
 
 <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
