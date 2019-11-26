@@ -51,8 +51,12 @@ class EventsController extends Controller
        $events =  Event::all();
 
 
-       $color = 'blue'; 
+     
 
+       $color = 'red';
+
+
+       
 
        return view('myeventscalendar', compact('events', 'currentDate', 'color' ));
     }
@@ -67,8 +71,8 @@ class EventsController extends Controller
             $data = request()->validate([
                 'event_name' => 'bail|required|',
                 'event_description' => 'bail|required',
-                'event_start' => 'bail|',
-                'event_end' => 'bail|',
+                'event_start' => 'bail|required',
+                'event_end' => 'bail|required',
             ]);
 
           
@@ -81,15 +85,16 @@ class EventsController extends Controller
 
 
 
-    
+  
+
     public function update(Request $request)
     {
         
         $data = array(
             'event_name' => $request->event_name,
             'event_description' => $request->event_description,
-            'event_start' =>  new carbon,
-            'event_end' => new carbon,
+            'event_start' =>  $request->event_start,
+            'event_end' => $request->event_end,
         );
 
   

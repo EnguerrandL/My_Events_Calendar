@@ -4,21 +4,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
          <script src="https://kit.fontawesome.com/0febd544a9.js"></script>
-
-<script> 
-
-console.log('script ready');
-
-function refresh() {
-
-  var l = document.getElementById('refreshDate');
-  
-  var t = setTimeout(l, 500);
-}
-</script>
-
-
- 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" >
 
@@ -29,7 +14,7 @@ function refresh() {
     <body class=" mt-5 col-12 mx-auto">
 
 
-    {{-- ERROS --}}
+    {{-- ERRORS --}}
 
            
 @if (session()->has('addedit'))
@@ -58,7 +43,7 @@ function refresh() {
 
 
 
-    {{-- ERROS END --}}
+    {{-- ERRORS END --}}
 
 
       {{-- LOGIN  --}}
@@ -75,7 +60,7 @@ function refresh() {
                         @else
                             
                                 <a class="d-flex text-right"  href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                   Loged with : {{ Auth::user()->email }} <span class="caret"></span>
+                                   Logged with : {{ Auth::user()->email }} <span class="caret"></span>
                                 </a>
 
 
@@ -98,7 +83,7 @@ function refresh() {
 
 
 
-    <button class="mx-auto   btn btn-outline-success "> About this app</button> 
+    <button class="ml-2 mb-4 fixed-bottom d-flex float-right  btn btn-outline-success "> About this app</button> 
        
 
 
@@ -106,12 +91,13 @@ function refresh() {
 <main class="col-12 mx-auto">
     
         <h1 class=" mb-3 text-center">Welcome to your Event calendar @  <span style="color:blue"> @if (Auth::user()) {{{  strtoupper(Auth::user()->name)  }}} @else You are not logged ! </span>@endif</h1>
-        <h3 onload="refresh()" id="refreshDate" class=" mb-3 text-center">Current time : {{$currentDate}} <small>timezone : Europe/Paris</small></h3>
-       
+        <h3  class=" mb-3 text-center">Current time : {{$currentDate}} <small>timezone : Europe/Paris</small></h3>
 
 
 
 
+@if (Auth::user())
+    
   <table class="col-8 mx-auto table">
 
   <thead class="thead-dark">
@@ -204,7 +190,12 @@ function refresh() {
 
 @endforeach
 
+@else 
 
+<h1 class="text-center mt-5  ">You must be logged to see your events !</h1> 
+
+
+@endif
 {{-- MODAL INSERT --}}
 
 <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -222,7 +213,7 @@ function refresh() {
       @csrf
       <div class="modal-body">
         
-          <div class="form-group">
+          <div class="mb-0 form-group">
             <label for="name" class="col-form-label">Event Name</label>
             <input type="text" name="event_name" class="form-control" >
           </div>
@@ -245,6 +236,19 @@ function refresh() {
                   <i class="fas fa-calendar"></i>
               </div>
           </div>
+
+          <div class="mt-2 text-center form-check">
+  <input class="form-check-input" type="checkbox" value="" id="mailNow">
+  <label class="form-check-label" for="defaultCheck1">
+    Send me a mail now 
+  </label>
+</div>
+          <div class="mt-2 text-center form-check">
+  <input class="form-check-input" type="checkbox" value="" id="mailDay">
+  <label class="form-check-label" for="defaultCheck1">
+    Send me a mail a day before this event start
+  </label>
+</div>
         
       </div>
       <div class="modal-footer">
@@ -271,7 +275,7 @@ function refresh() {
 
 
 
-$.fn.datepicker.defaults.format = "dd/mm/yyyy ";
+$.fn.datepicker.defaults.format = "yy/mm/dd";
 $('.datepicker').datepicker({
     
 });

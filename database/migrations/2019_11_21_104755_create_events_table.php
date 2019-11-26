@@ -21,6 +21,8 @@ class CreateEventsTable extends Migration
             $table->date('event_start')->nullable();
             $table->date('event_end')->nullable();
             $table->enum('stats', ['soon', 'now', 'finish'])->nullable();
+            $table->boolean('mailnow')->default(0);
+            $table->boolean('mailday')->default(0);
             $table->timestamps();
         });
     }

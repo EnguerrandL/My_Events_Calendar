@@ -8,5 +8,5 @@ class Event extends Model
 {
     protected $guarded = [];
 
-    protected $dates = ['event_start', 'event_end'];
 }
+
