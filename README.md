@@ -5,7 +5,7 @@ Simple events calendar under laravel using bootstrap modals and carbon
 ### Current state  : 
 
 - Crud
-- Seeder
+
 
 
 - seeding =>  php artisan migrate:fresh --seed
