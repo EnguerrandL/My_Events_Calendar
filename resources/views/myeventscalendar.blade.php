@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -18,21 +19,21 @@
 
            
 @if (session()->has('addedit'))
-<div class="col-2 container   alert alert-success mx-right mt-1 mr-0" role="alert">
+<div class="col-2 container   alert alert-success mr-2 mb-4  fixed-bottom d-flex mx-right" role="alert">
     {{ session()->get('addedit') }}
 </div>
 @endif
 
 
 @if (session()->has('delete'))
-<div class="col-2 container  alert alert-danger mx-right mt-1 mr-0" role="alert">
+<div class="col-2 container  alert alert-danger mr-2 mb-4  fixed-bottom d-flex mx-right " role="alert">
     {{ session()->get('delete') }}
 </div>
 @endif
 
               <!-- Errors -->
                         @if ($errors->any())
-                            <div class="col-2 container alert alert-danger mx-right mt-1 mr-0">
+                            <div class="col-2 container alert alert-danger ml-2 mb-4  fixed-bottom d-flex mx-right ">
                                 <ul>
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -93,6 +94,9 @@
         <h1 class=" mb-3 text-center">Welcome to your Event calendar @  <span style="color:blue"> @if (Auth::user()) {{{  strtoupper(Auth::user()->name)  }}} @else You are not logged ! </span>@endif</h1>
         <h3  class=" mb-3 text-center">Current time : {{$currentDate}} <small>timezone : Europe/Paris</small></h3>
 
+ 
+
+
 
 
 
@@ -112,9 +116,11 @@
   </thead>
 
   <tbody>
+
+
   @foreach ( $events as $event )
       
-    
+ 
   <tr>
    
   <th scope="row" style="color:{{ $color }}">Event Status</th>
@@ -166,17 +172,25 @@
           </div>
 
                   <div class="mb-2 input-group date" data-provide="datepicker">
-            <input placeholder="Event start" name="event_start" type="text" class=" form-control">
+            <input placeholder="{{$event->event_start}}" name="event_start" type="text" class=" form-control">
             <div class=" ml-2 input-group-addon">
                 <i class="far fa-calendar-alt"></i>
             </div>
         </div>
                   <div class=" input-group date" data-provide="datepicker">
-            <input placeholder="Event end" name="event_end" type="text" class="form-control">
+            <input placeholder="{{$event->event_end}}" name="event_end" type="text" class="form-control">
             <div class="ml-2 input-group-addon">
                 <i class="fas fa-calendar"></i>
             </div>
         </div>
+        
+          <div class="mt-2 text-center form-check">
+  <input class="form-check-input" type="checkbox" value="1" name="mailme">
+  <label class="form-check-label" for="defaultCheck1">
+    Send me a mail now 
+  </label>
+</div>
+
         
       </div>
       <div class="modal-footer">
@@ -225,7 +239,7 @@
           </div>
 
                               <div class="mb-2 input-group date" data-provide="datepicker">
-              <input placeholder="Event start" name="event_start" type="text" class=" form-control">
+              <input placeholder="Event start"  name="event_start" type="text" class=" form-control">
               <div class=" ml-2 input-group-addon">
                   <i class="far fa-calendar-alt"></i>
               </div>
@@ -238,17 +252,12 @@
           </div>
 
           <div class="mt-2 text-center form-check">
-  <input class="form-check-input" type="checkbox" value="" id="mailNow">
+  <input class="form-check-input" type="checkbox" value="1" name="mailme">
   <label class="form-check-label" for="defaultCheck1">
     Send me a mail now 
   </label>
 </div>
-          <div class="mt-2 text-center form-check">
-  <input class="form-check-input" type="checkbox" value="" id="mailDay">
-  <label class="form-check-label" for="defaultCheck1">
-    Send me a mail a day before this event start
-  </label>
-</div>
+
         
       </div>
       <div class="modal-footer">

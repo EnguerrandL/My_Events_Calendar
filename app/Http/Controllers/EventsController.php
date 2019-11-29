@@ -10,11 +10,38 @@ use DB;
 
 
 
-
 class EventsController extends Controller
 {
 
+    public static function fuckoff(){
+      
+        echo 'testing...';
+        
+        
+    }
+    
 
+    public function updatEventStat() {
+
+                $currentDate = new carbon; 
+        
+                $eventEnd = Event::select('event_end'); 
+                
+                $eventStatus = Event::select('stats')->get();
+        
+                $events = Event::where('stats', 'soon' )->orWhere('stats', 'now')->orWhere('stats', 'finish')->get(); 
+        
+                foreach ($events as $event){
+                    if ($eventEnd > $currentDate) {
+                        
+                        
+                    }
+           
+                }
+        
+            }
+        
+        
 
     public static function setColorStatus(){
 
@@ -26,20 +53,7 @@ class EventsController extends Controller
         ->get();
 
 
-        if($color = 'soon'){
-
-                 $status = 'green'; 
-
-        } elseif ($color = 'now') {
-
-                 $status = 'blue';
-
-        } else {
-                  $status = 'red';
-        }
-
-
-        return view('myeventcalendar', compact('color'));
+        return view('myeventcalendar', compact('color', 'status'));
     }
 
     public function index()
@@ -73,6 +87,9 @@ class EventsController extends Controller
                 'event_description' => 'bail|required',
                 'event_start' => 'bail|required',
                 'event_end' => 'bail|required',
+                'mailme' => 'bail|required',
+
+             
             ]);
 
           
@@ -82,7 +99,6 @@ class EventsController extends Controller
             return back()->with('addedit', 'Your event has been added !');
 
     }
-
 
 
   
@@ -95,6 +111,7 @@ class EventsController extends Controller
             'event_description' => $request->event_description,
             'event_start' =>  $request->event_start,
             'event_end' => $request->event_end,
+            'mailme' => $request->mailme, 
         );
 
   
@@ -118,4 +135,9 @@ class EventsController extends Controller
 
 
     }
+
+
 }
+
+
+ 

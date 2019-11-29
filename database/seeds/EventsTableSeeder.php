@@ -1,9 +1,14 @@
 <?php
 use Illuminate\Database\Seeder;
+
+
+
+
 class EventsTableSeeder extends Seeder
 {
     public function run()
     {
+
         // on crée un tableau dans config/categories.php
         // puis on crée une boucle pour récupérer toutes les données qui
         // nous serviront a remplir la base de donnée
@@ -14,6 +19,7 @@ class EventsTableSeeder extends Seeder
                 'event_description' => $event['event_description'],
                 'event_start' => $event['event_start'],
                 'event_end' => $event['event_end'],
+               
             ]);
         }
     }
